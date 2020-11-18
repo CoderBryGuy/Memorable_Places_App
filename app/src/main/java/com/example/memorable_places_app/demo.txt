@@ -1,0 +1,24 @@
+     SharedPreferences sharedPreferences = this.getSharedPreferences("com.example.sharedpreferences", Context.MODE_PRIVATE);
+
+        ArrayList<String> friends = new ArrayList<>();
+
+        friends.add("fido");
+        friends.add("sarah");
+        friends.add("jones");
+
+        try {
+            sharedPreferences.edit().putString("friends", ObjectSerializer.serialize(friends)).apply();
+            Log.i("friends", ObjectSerializer.serialize(friends));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> newFriends = new ArrayList<>();
+        try {
+            newFriends = (ArrayList<String>) ObjectSerializer.deserialize(sharedPreferences.getString("friends", ObjectSerializer.serialize(new ArrayList<String>())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.i("new Friends", newFriends.toString());
+
